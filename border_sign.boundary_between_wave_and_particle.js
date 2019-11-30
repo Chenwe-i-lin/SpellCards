@@ -1,17 +1,17 @@
-const Colors = require("colors");
-const DanmakuTypes = require('danmaku.types').DanmakuTypes;
-const LocalizationItem = require("util.localization").LocalizationItem;
-const CycleGen = require("danmaku.gen_methods").CycleGen;
-const range = require("util").range;
-const Danmaku = require('danmaku').Danmaku;
+var Colors = require("colors");
+var DanmakuTypes = require('danmaku.types').DanmakuTypes;
+var LocalizationItem = require("util.localization").LocalizationItem;
+var CycleGen = require("danmaku.gen_methods").CycleGen;
+var Danmaku = require('danmaku').Danmaku;
+// 导入包
 
-export default {
-    duration: 60,
-    id: "spell_cards.border_sign.boundary_between_wave_and_particle",
-    localization_name: new LocalizationItem("spell_cards.border_sign.boundary_between_wave_and_particle"),
-    tasks: [
-        /*遍历这个列表, 然后根据各个项的实现'射'出弹幕.*/
-        new CycleGen({
+exports = {}
+exports['default'] = {
+    duration: 60, // 符卡的持续时间
+    id: "spell_cards.border_sign.boundary_between_wave_and_particle", // 符卡的唯一ID
+    localization_name: new LocalizationItem("spell_cards.border_sign.boundary_between_wave_and_particle"), // 符卡在游戏中显示的名称
+    tasks: [ // 定义符卡的各个部分, 每个部分可以以不同的形式运动.
+        new CycleGen({ // 循环射出弹幕.
             /*
                 这个CycleGen是一个'shootable'的实例. 就像:
 
@@ -25,13 +25,13 @@ export default {
                     }, {delay(i)}, i);
                 }
             */
-            generation_number: 120,
-            delay: (i) => 2 * i,
-            shoot(gen_num) {
-                for (i of range(10)) {
-                    let danmaku = new Danmaku(this.world, entity, 2.0, 0.0, DanmakuTypes.PETAL, Colors.MAGENTA);
+            generation_number: 120, // 循环次数
+            delay: function delay(i){return 2 * i;}, // 弹幕射出延迟, 单位为s(秒)
+            shoot: function shoot(gen_num) { // 弹幕函数.
+                for (var i = 0; i < 9; i++){
+                    var danmaku = new Danmaku(this.world, this.entity, 2.0, 0.0, DanmakuTypes.PETAL, Colors.MAGENTA);
                     danmaku.shoot(this.entity, 0, this.entity.getYaw() - 40 * j + 5 * Math.pow(gen_num / 4, 2), 0, 0.4, 0);
-                    danmaku.spawn(this.world);
+                    danmaku.spawn(this.world); // 将弹幕投放到世界中
                 }
             }
         })
