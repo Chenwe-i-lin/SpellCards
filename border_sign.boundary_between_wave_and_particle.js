@@ -12,19 +12,6 @@ exports['default'] = {
     localization_name: new LocalizationItem("spell_cards.border_sign.boundary_between_wave_and_particle"), // 符卡在游戏中显示的名称
     tasks: [ // 定义符卡的各个部分, 每个部分可以以不同的形式运动.
         new CycleGen({ // 循环射出弹幕.
-            /*
-                这个CycleGen是一个'shootable'的实例. 就像:
-
-                for (var i = 0; i < {generation_number}; i++) {
-                    Task.add(function (times) {
-                        for (var j = 0; j < 9; j++) { // js用了range和for-of...
-                            var danmaku = new Danmaku(world, entity, 2.0, 0.0, Type.PETAL, Color.MAGENTA);
-                            danmaku.shoot(entity, 0, entity.getYaw() - 40 * j + 5 * Math.pow(times / 4, 2), 0, 0.4, 0);
-                            world.spawnDanmaku(danmaku);
-                        }
-                    }, {delay(i)}, i);
-                }
-            */
             generation_number: 120, // 循环次数
             delay: function delay(i){return 2 * i;}, // 弹幕射出延迟, 单位为s(秒)
             shoot: function shoot(gen_num) { // 弹幕函数.
